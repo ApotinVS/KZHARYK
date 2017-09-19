@@ -6,7 +6,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class BkExcel {
 
@@ -29,11 +32,17 @@ public class BkExcel {
     public String t3;
     public String t3v;
     public String summ;
+    private Date dateNowT1;
+    private Date dateNowT2;
+    private Date dateNowT3;
 
-    public static ArrayList<BkExcel> check (ArrayList<BkExcel> list){
+    public static ArrayList<BkExcel> check (ArrayList<BkExcel> list, Date dateTake) throws ParseException {
+
         ArrayList<BkExcel> listOut = new ArrayList<BkExcel>();
+        ArrayList<BkExcel> listOut1 = new ArrayList<BkExcel>();
         listOut.add(list.get(0));
         listOut.add(list.get(1));
+
         for (int i = 0; i <list.size() ; i++) {
             if (!list.get(i).t1v.equals("****") && !list.get(i).t1.equals("****") && list.get(i).energy.equals("****") &&
                     !list.get(i).t2v.equals("****") && !list.get(i).t2.equals("****") && !list.get(i).t3v.equals("****") && !list.get(i).t3.equals("****") ){
@@ -41,12 +50,46 @@ public class BkExcel {
 
             }
         }
-        return listOut;
+        for (int i = 2; i <listOut.size() ; i++) {
+            listOut.get(i).t1 = listOut.get(i).t1.substring(0, 5)+".2017";
+            listOut.get(i).t2 = listOut.get(i).t2.substring(0, 5)+".2017";
+            listOut.get(i).t3 = listOut.get(i).t3.substring(0, 5)+".2017";
+            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+            listOut.get(i).dateNowT1 = format.parse(listOut.get(i).t1);
+            listOut.get(i).dateNowT2 = format.parse(listOut.get(i).t2);
+            listOut.get(i).dateNowT3 = format.parse(listOut.get(i).t3);
+            if (dateTake.getTime() >= listOut.get(i).dateNowT1.getTime() && dateTake.getTime() >=
+                    listOut.get(i).dateNowT2.getTime() && dateTake.getTime() >= listOut.get(i).dateNowT3.getTime()){
+                long difference1 = dateTake.getTime() - listOut.get(i).dateNowT1.getTime();
+                long difference2 = dateTake.getTime() - listOut.get(i).dateNowT2.getTime();
+                long difference3 = dateTake.getTime() - listOut.get(i).dateNowT3.getTime();
+                int days1 = (int) difference1 / (24 * 60 * 60 * 1000);
+                int days2 = (int) difference2 / (24 * 60 * 60 * 1000);
+                int days3 = (int) difference3 / (24 * 60 * 60 * 1000);
+
+                if (days1 < 1 && days2 < 1 && days3 < 1){
+                    listOut1.add(listOut.get(i));
+                }
+            }
+            else if (listOut.get(i).dateNowT1.getTime() > dateTake.getTime() || listOut.get(i).dateNowT2.getTime() >
+                    dateTake.getTime() || listOut.get(i).dateNowT3.getTime() > dateTake.getTime()){
+                long difference1 = dateTake.getTime() - listOut.get(i).dateNowT1.getTime();
+                long difference2 = dateTake.getTime() - listOut.get(i).dateNowT2.getTime();
+                long difference3 = dateTake.getTime() - listOut.get(i).dateNowT3.getTime();
+                int days1 = (int) difference1 / (24 * 60 * 60 * 1000);
+                int days2 = (int) difference2 / (24 * 60 * 60 * 1000);
+                int days3 = (int) difference3 / (24 * 60 * 60 * 1000);
+                if (days1 < 1 && days2 < 1 && days3 < 1){
+                    listOut1.add(listOut1.get(i));
+                }
+            }
+        }
+        return listOut1;
+
     }
-    public static void writeIntiExcel(String file, ArrayList<BkExcel> list){
+    public static void writeIntoExcel(String file, ArrayList<BkExcel> list){
         Workbook workbook = new HSSFWorkbook();
         Sheet sheet = workbook.createSheet();
-        list = BkExcel.check(list);
         for (int i = 0; i < list.size(); i++) {
 
             Row row = sheet.createRow(i);
