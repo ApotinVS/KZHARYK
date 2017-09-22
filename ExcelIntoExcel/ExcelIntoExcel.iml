@@ -15,5 +15,6 @@
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.5" level="project" />
     <orderEntry type="library" name="org.apache.poi:openxml4j:1.0-beta" level="project" />
     <orderEntry type="library" name="org.apache.poi:poi-ooxml:3.11" level="project" />
+    <orderEntry type="library" name="org.apache.poi:poi:3.11" level="project" />
   </component>
 </module>

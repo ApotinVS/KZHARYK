@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 public class BkExcel {
@@ -37,20 +39,21 @@ public class BkExcel {
     private Date dateNowT3;
 
     public static ArrayList<BkExcel> check (ArrayList<BkExcel> list, Date dateTake) throws ParseException {
-
+        int sortNumber = 3;
+        ArrayList<Integer> temp = new ArrayList<Integer>();
         ArrayList<BkExcel> listOut = new ArrayList<BkExcel>();
         ArrayList<BkExcel> listOut1 = new ArrayList<BkExcel>();
-        listOut.add(list.get(0));
-        listOut.add(list.get(1));
 
-        for (int i = 0; i <list.size() ; i++) {
-            if (!list.get(i).t1v.equals("****") && !list.get(i).t1.equals("****") && list.get(i).energy.equals("****") &&
-                    !list.get(i).t2v.equals("****") && !list.get(i).t2.equals("****") && !list.get(i).t3v.equals("****") && !list.get(i).t3.equals("****") ){
+        for (int i = 2; i <list.size() ; i++) {
+            if (!list.get(i).energy.equals("----") && !list.get(i).energy.equals("----") ){
                 listOut.add(list.get(i));
-
             }
-        }
-        for (int i = 2; i <listOut.size() ; i++) {
+                        else if (!list.get(i).t1v.equals("****") && !list.get(i).t1.equals("****") && !list.get(i).energy.equals("----") &&
+                !list.get(i).t2v.equals("****") && !list.get(i).t2.equals("****") /*&& !list.get(i).t3v.equals("****") && !list.get(i).t3.equals("****")*/ ){
+            listOut.add(list.get(i));
+        }}
+
+        /*for (int i = 0; i <listOut.size() ; i++) {
             listOut.get(i).t1 = listOut.get(i).t1.substring(0, 5)+".2017";
             listOut.get(i).t2 = listOut.get(i).t2.substring(0, 5)+".2017";
             listOut.get(i).t3 = listOut.get(i).t3.substring(0, 5)+".2017";
@@ -58,6 +61,7 @@ public class BkExcel {
             listOut.get(i).dateNowT1 = format.parse(listOut.get(i).t1);
             listOut.get(i).dateNowT2 = format.parse(listOut.get(i).t2);
             listOut.get(i).dateNowT3 = format.parse(listOut.get(i).t3);
+
             if (dateTake.getTime() >= listOut.get(i).dateNowT1.getTime() && dateTake.getTime() >=
                     listOut.get(i).dateNowT2.getTime() && dateTake.getTime() >= listOut.get(i).dateNowT3.getTime()){
                 long difference1 = dateTake.getTime() - listOut.get(i).dateNowT1.getTime();
@@ -66,8 +70,7 @@ public class BkExcel {
                 int days1 = (int) difference1 / (24 * 60 * 60 * 1000);
                 int days2 = (int) difference2 / (24 * 60 * 60 * 1000);
                 int days3 = (int) difference3 / (24 * 60 * 60 * 1000);
-
-                if (days1 < 1 && days2 < 1 && days3 < 1){
+                if (days1 < sortNumber && days2 < sortNumber && days3 < sortNumber){
                     listOut1.add(listOut.get(i));
                 }
             }
@@ -79,19 +82,47 @@ public class BkExcel {
                 int days1 = (int) difference1 / (24 * 60 * 60 * 1000);
                 int days2 = (int) difference2 / (24 * 60 * 60 * 1000);
                 int days3 = (int) difference3 / (24 * 60 * 60 * 1000);
-                if (days1 < 1 && days2 < 1 && days3 < 1){
+                if (days1 < sortNumber && days2 < sortNumber && days3 < sortNumber){
                     listOut1.add(listOut1.get(i));
                 }
             }
         }
-        return listOut1;
+        listOut.clear();*/
+       Collections.sort(listOut, COMPARE_BY_PLC);/*
+        for (int i = 1; i < listOut1.size() ; i++) {
+            if (listOut1.get(i).plc.equals(listOut1.get(i-1).plc)){
+                temp.add(i);
+                if (i == 1 &&  !listOut1.get(i).plc.equals(listOut1.get(i+1).plc)){
+                    temp.add(i-1);
+                }
+                else if ( !listOut1.get(i).plc.equals(listOut1.get(i-2).plc) && i > 1){
+                    temp.add(i-1);
+                }
+            }
+        }*/
 
+        Collections.sort(temp);
+
+        /*for (int i = temp.size()-1; i >= 0; i--) {
+            System.out.println(temp.get(i));
+            listOut1.remove(listOut1.get(temp.get(i)));
+        }*/
+
+
+        return listOut;
     }
+
+    public static final Comparator<BkExcel> COMPARE_BY_PLC = new Comparator<BkExcel>() {
+        @Override
+        public int compare(BkExcel bkExcel, BkExcel t1) {
+           return Integer.parseInt(bkExcel.plc) - Integer.parseInt(t1.plc);
+        }
+    };
+
     public static void writeIntoExcel(String file, ArrayList<BkExcel> list){
         Workbook workbook = new HSSFWorkbook();
         Sheet sheet = workbook.createSheet();
         for (int i = 0; i < list.size(); i++) {
-
             Row row = sheet.createRow(i);
             Cell plc = row.createCell(0);
             Cell lSchet = row.createCell(1);
@@ -133,6 +164,7 @@ public class BkExcel {
             t3v.setCellValue(list.get(i).t3v);
             summ.setCellValue(list.get(i).summ);
         }
+
         try (FileOutputStream out = new FileOutputStream(file)) {
             workbook.write(out);
         } catch (IOException e) {
