@@ -22,7 +22,7 @@ public class Window extends JFrame {
     public JLabel Label3;
     public Window (){
         super("ExcelToExcel");
-        setBounds(100, 100, 150, 150);
+        setBounds(100, 100, 1200, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final Container con = getContentPane();
         con.setLayout(new FlowLayout());
@@ -31,9 +31,6 @@ public class Window extends JFrame {
         con.add(Label1);
         input = new JTextField(100);//поле ввода
         con.add(input);
-        Label3 = new JLabel();//поле ввода
-        Label3.setText("");
-        con.add(Label3);
         Label2 = new JLabel();//поле ввода
         Label2.setText("Введите путь к выходному файлу в формате C:\\Users\\ApotinV\\123.xls");
         con.add(Label2);
@@ -42,6 +39,8 @@ public class Window extends JFrame {
         button = new JButton("Поехали!");
         //button.setBounds(5, 5, 85, 30);
         con.add(button);
+        Label3 = new JLabel();
+        con.add(Label3);
         Label = new JLabel(t);
         con.add(Label, BorderLayout.EAST);
 
@@ -59,19 +58,21 @@ public class Window extends JFrame {
                     System.out.println(DirectoryFileNames.GetFileNames(tInput).get(i));
                     try {
                         list = Parser.parse(tInput+ "\\" + DirectoryFileNames.GetFileNames(tInput).get(i));
+                        list2.add(list.get(0));
+                        list2.add(list.get(1));
                         list1 = BkExcel.check(list/*, dateTake*/);
                         for (int j = 0; j < list1.size(); j++) {
                             list2.add(list1.get(j));
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Label3.setText(e.toString());
                     } catch (InvalidFormatException e) {
-                        e.printStackTrace();
+                        Label3.setText(e.toString());
                     } catch (ParseException e) {
-                        e.printStackTrace();
+                        Label3.setText(e.toString());
                     }
             }
-                BkExcel.writeIntoExcel(tOutput+"\\FullFile",list2);
+                BkExcel.writeIntoExcel(tOutput,list2);
                 Label.setText("Excel файл успешно создан");
 
 
