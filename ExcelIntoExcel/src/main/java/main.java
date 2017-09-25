@@ -8,7 +8,9 @@ import java.util.Date;
 
 public class main {
     public static void main(String... args) throws IOException, InvalidFormatException, ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        Window app = new Window();
+        app.setVisible(true);
+       /* SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date dateTake = format.parse("11.09.2017");
         ArrayList<BkExcel> list1 = new ArrayList<BkExcel>();
         ArrayList<BkExcel> list2 = new ArrayList<BkExcel>();
@@ -21,7 +23,7 @@ public class main {
                 list2.add(list1.get(j));
             }
         }
-        BkExcel.writeIntoExcel("C:\\Users\\ApotinV\\Desktop\\от Жалгаса\\aaaaa.xls",list2);
+        BkExcel.writeIntoExcel("C:\\Users\\ApotinV\\Desktop\\от Жалгаса\\aaaaa.xls",list2);*/
 
 
 

@@ -38,14 +38,14 @@ public class BkExcel {
     private Date dateNowT2;
     private Date dateNowT3;
 
-    public static ArrayList<BkExcel> check (ArrayList<BkExcel> list, Date dateTake) throws ParseException {
+    public static ArrayList<BkExcel> check (ArrayList<BkExcel> list/*, Date dateTake*/) throws ParseException {
         int sortNumber = 3;
         ArrayList<Integer> temp = new ArrayList<Integer>();
         ArrayList<BkExcel> listOut = new ArrayList<BkExcel>();
         ArrayList<BkExcel> listOut1 = new ArrayList<BkExcel>();
 
         for (int i = 2; i <list.size() ; i++) {
-            if (!list.get(i).energy.equals("----") && !list.get(i).energy.equals("----") ){
+            if (!list.get(i).energy.equals("----") && !list.get(i).energy.equals("****") ){
                 listOut.add(list.get(i));
             }
                         else if (!list.get(i).t1v.equals("****") && !list.get(i).t1.equals("****") && !list.get(i).energy.equals("----") &&
