@@ -26,6 +26,7 @@ public class Window extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final Container con = getContentPane();
         con.setLayout(new FlowLayout());
+
         Label1 = new JLabel();
         Label1.setText("Введите путь к папке входных файлов пример C:\\Users\\ApotinV");//поле ввода
         con.add(Label1);
@@ -57,26 +58,23 @@ public class Window extends JFrame {
                 for (int i = 0; i < countOfFiles; i++) {
                     System.out.println(DirectoryFileNames.GetFileNames(tInput).get(i));
                     try {
-                        list = Parser.parse(tInput+ "\\" + DirectoryFileNames.GetFileNames(tInput).get(i));
-                        list2.add(list.get(0));
-                        list2.add(list.get(1));
+                        list = Parser.parse(tInput + "\\" + DirectoryFileNames.GetFileNames(tInput).get(i));
+                        if (i == 0) {
+                            list2.add(list.get(0));
+                            list2.add(list.get(1));
+                        }
                         list1 = BkExcel.check(list/*, dateTake*/);
                         for (int j = 0; j < list1.size(); j++) {
                             list2.add(list1.get(j));
                         }
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         Label3.setText(e.toString());
-                    } catch (InvalidFormatException e) {
-                        Label3.setText(e.toString());
-                    } catch (ParseException e) {
-                        Label3.setText(e.toString());
+                        Label.setVisible(false);
                     }
-            }
-                BkExcel.writeIntoExcel(tOutput,list2);
+                }
+                BkExcel.writeIntoExcel(tOutput, list2);
                 Label.setText("Excel файл успешно создан");
-
-
-        }
-
-    });
-}}
+            }
+        });
+    }
+}

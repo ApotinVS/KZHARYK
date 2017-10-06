@@ -3,7 +3,7 @@
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
   <jar>C:\Users\ApotinV\Desktop\KZHARYK\out\artifacts\KZHARYK_jar\KZHARYK.jar</jar>
-  <outfile>C:\Users\ApotinV\Desktop\ExcelToExcel.exe</outfile>
+  <outfile>C:\Users\ApotinV\Desktop\KZHARYK\out\artifacts\KZHARYK_jar\ExcelToExcel.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -11,7 +11,7 @@
   <downloadUrl>http://java.com/download</downloadUrl>
   <supportUrl></supportUrl>
   <stayAlive>false</stayAlive>
-  <restartOnCrash>true</restartOnCrash>
+  <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
   <icon></icon>
   <jre>

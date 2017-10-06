@@ -38,7 +38,8 @@ public class Parser {
             DataFormatter formatter = new DataFormatter();
             while (rows.hasNext()) {
                 row = (XSSFRow) rows.next();
-                bkExcel = new BkExcel(formatter.formatCellValue(row.getCell(1)),
+                bkExcel = new BkExcel(formatter.formatCellValue(row.getCell(0)),
+                        formatter.formatCellValue(row.getCell(1)),
                         formatter.formatCellValue(row.getCell(2)),
                         formatter.formatCellValue(row.getCell(3)),
                         formatter.formatCellValue(row.getCell(4)),

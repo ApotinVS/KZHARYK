@@ -15,6 +15,7 @@ import java.util.Date;
 
 public class BkExcel {
 
+    public String number;
     public String plc;
     public String lSchet;
     public String KTP;
@@ -48,10 +49,19 @@ public class BkExcel {
             if (!list.get(i).energy.equals("----") && !list.get(i).energy.equals("****") ){
                 listOut.add(list.get(i));
             }
-                        else if (!list.get(i).t1v.equals("****") && !list.get(i).t1.equals("****") && !list.get(i).energy.equals("----") &&
+            else if (!list.get(i).t1v.equals("****") && !list.get(i).t1.equals("****") && !list.get(i).energy.equals("----") &&
                 !list.get(i).t2v.equals("****") && !list.get(i).t2.equals("****") /*&& !list.get(i).t3v.equals("****") && !list.get(i).t3.equals("****")*/ ){
             listOut.add(list.get(i));
-        }}
+            }
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).summ.contains("."))
+            list.get(i).summ = list.get(i).summ.substring(0,list.get(i).summ.indexOf("."));
+            if (list.get(i).summ.contains(","))
+            list.get(i).summ = list.get(i).summ.substring(0,list.get(i).summ.indexOf(","));
+
+        }
 
         /*for (int i = 0; i <listOut.size() ; i++) {
             listOut.get(i).t1 = listOut.get(i).t1.substring(0, 5)+".2017";
@@ -124,26 +134,28 @@ public class BkExcel {
         Sheet sheet = workbook.createSheet();
         for (int i = 0; i < list.size(); i++) {
             Row row = sheet.createRow(i);
-            Cell plc = row.createCell(0);
-            Cell lSchet = row.createCell(1);
-            Cell KTP = row.createCell(2);
-            Cell konc = row.createCell(3);
-            Cell street = row.createCell(4);
-            Cell house = row.createCell(5);
-            Cell apartment = row.createCell(6);
-            Cell nSnFn = row.createCell(7);
-            Cell model = row.createCell(8);
-            Cell nCounter = row.createCell(9);
-            Cell energy = row.createCell(10);
-            Cell kWth = row.createCell(11);
-            Cell t1 = row.createCell(12);
-            Cell t1v = row.createCell(13);
-            Cell t2 = row.createCell(14);
-            Cell t2v = row.createCell(15);
-            Cell t3 = row.createCell(16);
-            Cell t3v = row.createCell(17);
-            Cell summ = row.createCell(18);
+            Cell number = row.createCell(0);
+            Cell plc = row.createCell(1);
+            Cell lSchet = row.createCell(2);
+            Cell KTP = row.createCell(3);
+            Cell konc = row.createCell(4);
+            Cell street = row.createCell(5);
+            Cell house = row.createCell(6);
+            Cell apartment = row.createCell(7);
+            Cell nSnFn = row.createCell(8);
+            Cell model = row.createCell(9);
+            Cell nCounter = row.createCell(10);
+            Cell energy = row.createCell(11);
+            Cell kWth = row.createCell(12);
+            Cell t1 = row.createCell(13);
+            Cell t1v = row.createCell(14);
+            Cell t2 = row.createCell(15);
+            Cell t2v = row.createCell(16);
+            Cell t3 = row.createCell(17);
+            Cell t3v = row.createCell(18);
+            Cell summ = row.createCell(19);
 
+            number.setCellValue(list.get(i).number);
             plc.setCellValue(list.get(i).plc);
             lSchet.setCellValue(list.get(i).lSchet);
             KTP.setCellValue(list.get(i).KTP);
@@ -351,8 +363,9 @@ public class BkExcel {
         this.summ = summ;
     }
 
-    public BkExcel(String plc, String lSchet, String KTP, String konc, String street, String house, String apartment, String nSnFn, String model, String nCounter, String energy, String kWth, String t1, String t1v, String t2, String t2v, String t3, String t3v, String summ) {
+    public BkExcel(String number, String plc, String lSchet, String KTP, String konc, String street, String house, String apartment, String nSnFn, String model, String nCounter, String energy, String kWth, String t1, String t1v, String t2, String t2v, String t3, String t3v, String summ) {
 
+        this.number = number;
         this.plc = plc;
         this.lSchet = lSchet;
         this.KTP = KTP;
