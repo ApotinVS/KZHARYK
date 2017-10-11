@@ -1,3 +1,5 @@
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -18,7 +20,7 @@ import org.apache.poi.ss.usermodel.*;
 
 public class Parser {
 
-    public static ArrayList<BkExcel> parse(String path) throws IOException, InvalidFormatException, ParseException {
+    public static ArrayList<BkExcel> parseXlsx(String path) throws IOException, InvalidFormatException, ParseException {
         BkExcel bkExcel ;
         ArrayList <BkExcel> listbkExcel = new ArrayList<BkExcel>();
         InputStream in = null;
@@ -31,6 +33,7 @@ public class Parser {
                 e.printStackTrace();
             }
 
+
             Workbook wb = WorkbookFactory.create(new File(path));
             Sheet sheet = wb.getSheetAt(0);
             XSSFRow row;
@@ -38,6 +41,51 @@ public class Parser {
             DataFormatter formatter = new DataFormatter();
             while (rows.hasNext()) {
                 row = (XSSFRow) rows.next();
+                bkExcel = new BkExcel(formatter.formatCellValue(row.getCell(0)),
+                        formatter.formatCellValue(row.getCell(1)),
+                        formatter.formatCellValue(row.getCell(2)),
+                        formatter.formatCellValue(row.getCell(3)),
+                        formatter.formatCellValue(row.getCell(4)),
+                        formatter.formatCellValue(row.getCell(5)),
+                        formatter.formatCellValue(row.getCell(6)),
+                        formatter.formatCellValue(row.getCell(7)),
+                        formatter.formatCellValue(row.getCell(8)),
+                        formatter.formatCellValue(row.getCell(9)),
+                        formatter.formatCellValue(row.getCell(10)),
+                        formatter.formatCellValue(row.getCell(11)),
+                        formatter.formatCellValue(row.getCell(12)),
+                        formatter.formatCellValue(row.getCell(13)),
+                        formatter.formatCellValue(row.getCell(14)),
+                        formatter.formatCellValue(row.getCell(15)),
+                        formatter.formatCellValue(row.getCell(16)),
+                        formatter.formatCellValue(row.getCell(17)),
+                        formatter.formatCellValue(row.getCell(18)),
+                        formatter.formatCellValue(row.getCell(19)));
+                listbkExcel.add(bkExcel);
+            }
+
+        return listbkExcel;
+    }
+    public static ArrayList<BkExcel> parseXls(String path) throws IOException, InvalidFormatException, ParseException {
+        BkExcel bkExcel ;
+        ArrayList <BkExcel> listbkExcel = new ArrayList<BkExcel>();
+        InputStream in = null;
+
+        HSSFWorkbook wb = null;
+            try {
+                in = new FileInputStream(path);
+                wb = new HSSFWorkbook(in);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            Sheet sheet = wb.getSheetAt(0);
+            HSSFRow row;
+            Iterator<Row> rows = sheet.rowIterator();
+            DataFormatter formatter = new DataFormatter();
+            while (rows.hasNext()) {
+                row = (HSSFRow) rows.next();
                 bkExcel = new BkExcel(formatter.formatCellValue(row.getCell(0)),
                         formatter.formatCellValue(row.getCell(1)),
                         formatter.formatCellValue(row.getCell(2)),

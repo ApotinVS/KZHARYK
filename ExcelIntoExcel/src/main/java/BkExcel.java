@@ -49,7 +49,7 @@ public class BkExcel {
             if (!list.get(i).energy.equals("----") && !list.get(i).energy.equals("****") ){
                 listOut.add(list.get(i));
             }
-            else if (!list.get(i).t1v.equals("****") && !list.get(i).t1.equals("****") && !list.get(i).energy.equals("----") &&
+            else if ((!list.get(i).summ.equals("0,00") && !list.get(i).summ.equals("0.00") )/*&& !list.get(i).t1v.equals("****") && !list.get(i).t1.equals("****") && !list.get(i).energy.equals("----") &&
                 !list.get(i).t2v.equals("****") && !list.get(i).t2.equals("****") /*&& !list.get(i).t3v.equals("****") && !list.get(i).t3.equals("****")*/ ){
             listOut.add(list.get(i));
             }
